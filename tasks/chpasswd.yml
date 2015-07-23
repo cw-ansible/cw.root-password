@@ -1,0 +1,7 @@
+---
+
+- name: Update root password using chpasswd
+  shell:
+    echo "root:{{ root_password }}" | /usr/sbin/chpasswd
+  when:
+    root_password is defined

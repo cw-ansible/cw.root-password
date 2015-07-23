@@ -1,0 +1,22 @@
+---
+
+- name: Install passlib
+  apt:
+    pkg: python-passlib
+    install_recommends: no
+    update_cache: yes
+    cache_valid_time: 3600
+  when: root_password is defined
+
+- name: Generate password
+  command:
+    python -c "from passlib.hash import sha512_crypt; print sha512_crypt.encrypt('{{ root_password }}')"
+  register: pass
+  when: root_password is defined
+  
+- name: Change root password using sha512 hash
+  user:
+    name: root
+    password: '{{pass.stdout}}'
+  when:
+    pass is defined and pass.stdout is defined

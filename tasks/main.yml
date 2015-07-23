@@ -1,0 +1,8 @@
+---
+
+# Modern ubuntu distributions use sha512 hashing
+- include: sha512.yml
+  when: ansible_lsb.codename in [ 'precise', 'saucy', 'trusty' ]
+
+- include: chpasswd.yml
+  when: ansible_lsb.codename not in [ 'precise', 'saucy', 'trusty' ]
